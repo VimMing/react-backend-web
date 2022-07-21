@@ -1,3 +1,5 @@
+import { AxiosRequestConfig } from "axios";
+
 const TOKEN_KEY = "TOKEN_KEY";
 
 export function getToken() {
@@ -5,7 +7,7 @@ export function getToken() {
   return data ? JSON.parse(data) : {};
 }
 
-export function appendToken(config: {headers: object}){
+export function appendToken(config: AxiosRequestConfig){
   let res = {...config}
   Object.assign(res.headers, getToken());
   return res;
