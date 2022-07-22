@@ -14,8 +14,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Login />}></Route>
-        <Route path="/" element={<Introduce />}></Route>
+        <Route path="/login"  element={<Login />}></Route>
+        <Route index  element={<Introduce />}></Route>
       </Routes>
     </BrowserRouter>
   );

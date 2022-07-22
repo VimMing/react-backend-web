@@ -7,15 +7,15 @@ export function getToken() {
   return data ? JSON.parse(data) : {};
 }
 
-export function appendToken(config: AxiosRequestConfig){
-  let res = {...config}
+export function appendToken(config: AxiosRequestConfig) {
+  let res = { ...config };
   Object.assign(res.headers, getToken());
   return res;
 }
 
-export function setToken(token:string) {
+export function setToken(token: string) {
   const data = {
-    Authorization: `${token}`
+    Authorization: `${token}`,
   };
   localStorage.setItem(TOKEN_KEY, JSON.stringify(data));
 }
@@ -24,3 +24,10 @@ export function removeToken() {
   localStorage.removeItem(TOKEN_KEY);
 }
 
+export function tokenIsValid(status: number) {
+  if (status === 401 && !window.location.href.includes("/login")) {
+    // 退出登录
+    removeToken()
+    window.location.href="/login"
+  }
+}

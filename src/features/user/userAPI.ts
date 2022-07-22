@@ -1,5 +1,5 @@
 import axios from "axios";
-import {appendToken} from '@/utils/token'
+import {appendToken, tokenIsValid} from '@/utils/token'
 
 const API = axios.create({
   baseURL: process.env.REACT_APP_API,
@@ -21,9 +21,7 @@ API.interceptors.response.use(
     const response = error.response;
     if (response) {
       const status = response.status;
-      if (status === 401 && !window.location.href.includes("/account/login")) {
-        // 退出登录
-      }
+      tokenIsValid(status)
     }
     return Promise.reject(error);
   }
