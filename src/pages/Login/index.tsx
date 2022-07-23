@@ -13,7 +13,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useAppDispatch } from "@/app/hooks";
-import { login } from "@/features/user/userSlice";
+import { loginAsync } from "@/features/user/userSlice";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Copyright(props: any) {
   return (
@@ -21,8 +22,7 @@ function Copyright(props: any) {
       variant="body2"
       color="text.secondary"
       align="center"
-      {...props}
-    >
+      {...props}>
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         后台系统
@@ -35,19 +35,30 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
+interface stateType {
+  from: { pathname: string };
+}
+
 export default function Login() {
   const dispatch = useAppDispatch();
+  let navigate = useNavigate();
+  let location = useLocation();
+  let from = (location.state as stateType)?.from?.pathname || "/";
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email: string = data.get("email") as string;
+    const username: string = data.get("username") as string;
     const password: string = data.get("password") as string;
     dispatch(
-      login({
-        email: email,
+      loginAsync({
+        username: username,
         password: password,
       })
-    );
+    ).then((res) => {
+      if (res.meta.requestStatus === "fulfilled") {
+        navigate(from, { replace: true });
+      }
+    });
   };
 
   return (
@@ -78,8 +89,7 @@ export default function Login() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-            }}
-          >
+            }}>
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
@@ -90,16 +100,15 @@ export default function Login() {
               component="form"
               noValidate
               onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+              sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="邮箱"
-                name="email"
-                autoComplete="email"
+                id="username"
+                label="邮箱/手机号"
+                name="username"
+                autoComplete="username"
                 autoFocus
               />
               <TextField
@@ -120,8 +129,7 @@ export default function Login() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
+                sx={{ mt: 3, mb: 2 }}>
                 登陆
               </Button>
               {/* <Grid container>

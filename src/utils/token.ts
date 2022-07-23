@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from "axios";
 
 const TOKEN_KEY = "TOKEN_KEY";
 
-export function getToken() {
+export function getToken():{Authorization?: string} {
   const data = localStorage.getItem(TOKEN_KEY);
   return data ? JSON.parse(data) : {};
 }
@@ -25,9 +25,8 @@ export function removeToken() {
 }
 
 export function tokenIsValid(status: number) {
-  if (status === 401 && !window.location.href.includes("/login")) {
+  if (status === 401) {
     // 退出登录
     removeToken()
-    window.location.href="/login"
   }
 }

@@ -30,7 +30,7 @@ API.interceptors.response.use(
 export function loginAPI(payload: {
   username: string;
   password: string;
-}): Promise<any> {
+}): Promise<{data: string, errCode: number}> {
   return API.post(
     "/user/use-password/login",
     payload

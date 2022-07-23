@@ -1,31 +1,39 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { loginAPI } from "./userAPI";
+import { getToken, setToken } from "@/utils/token";
+import { RootState } from "@/app/store";
 export interface UserState {
-  email: string;
-  password: string;
+  Authorization: string;
 }
 
 const initialState: UserState = {
-  email: "",
-  password: "",
+  Authorization: "",
 };
 
+export const loginAsync = createAsyncThunk(
+  "user/login",
+  async (payload: Parameters<typeof loginAPI>[0]) => {
+    const res = await loginAPI(payload);
+    if (res.errCode === 0) {
+      setToken(res.data);
+    }
+    return res.data;
+  }
+);
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    login: (state, action: PayloadAction<UserState>) => {
-      loginAPI({
-        username: action.payload.email,
-        password: action.payload.password,
-      }).then((res) => {
-        console.log(res);
-        state.email = action.payload.email;
-        state.password = action.payload.password;
-      });
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(loginAsync.fulfilled, (state, action) => {
+      state.Authorization = action.payload;
+    });
   },
 });
 
-export const { login } = userSlice.actions;
+export const selectAuth = (state: RootState): boolean => {
+  return Boolean(state.user.Authorization) || Boolean(getToken().Authorization);
+};
+
+// export const { login } = userSlice.actions;
 export default userSlice.reducer;
