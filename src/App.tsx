@@ -5,18 +5,16 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
-import Introduce from "@/pages/Intro";
+// import Introduce from "@/pages/Intro";
+import Layout from "@/features/layout/layout"
 import Login from "./pages/Login";
 import { useEffect } from "react";
 import { useAppSelector } from "@/app/hooks";
 import { selectAuth } from "@/features/user/userSlice";
 
 function App() {
-  // const naviage: ReturnType<typeof useNavigate> = useNavigate();
-  // naviage("/login");
   useEffect(() => {
     console.log("enter app");
-    // naviage("/login");
   });
 
   return (
@@ -27,7 +25,7 @@ function App() {
           index
           element={
             <RequireAuth>
-              <Introduce />
+              <Layout />
             </RequireAuth>
           }></Route>
       </Routes>
