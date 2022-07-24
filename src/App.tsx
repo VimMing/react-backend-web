@@ -6,7 +6,7 @@ import {
   Navigate,
 } from "react-router-dom";
 // import Introduce from "@/pages/Intro";
-import Layout from "@/features/layout/layout"
+import Layout from "@/features/layout/layout";
 import Login from "./pages/Login";
 import { useEffect } from "react";
 import { useAppSelector } from "@/app/hooks";
@@ -28,6 +28,13 @@ function App() {
               <Layout />
             </RequireAuth>
           }></Route>
+        <Route
+          path="/*"
+          element={
+            <RequireAuth>
+              <Layout />
+            </RequireAuth>
+          }></Route>
       </Routes>
     </BrowserRouter>
   );
@@ -35,8 +42,7 @@ function App() {
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   let auth = useAppSelector(selectAuth);
-  let location = useLocation();
-
+  let location = useLocation(); 
   if (!auth) {
     // Redirect them to the /login page, but save the current location they were
     // trying to go to when they were redirected. This allows us to send them
