@@ -17,10 +17,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { MainListItems, secondaryListItems } from "./sidebar";
-import {Routes, Route} from "react-router-dom"
-import Intro from '@/pages/Intro';
-import Dashboard from '@/pages/Dashboard';
-
+import { Routes, Route } from "react-router-dom";
+import Intro from "@/pages/Intro";
+import Dashboard from "@/pages/Dashboard";
+import UserList from "@/pages/UserList";
 
 function Copyright(props: any) {
   return (
@@ -168,6 +168,7 @@ export default function Layout() {
               <Routes>
                 <Route index element={<Intro />} />
                 <Route path="dashboard" element={<Dashboard />} />
+                <Route path="user-list" element={<UserList />} />
               </Routes>
             </Grid>
             <Copyright sx={{ pt: 4 }} />
