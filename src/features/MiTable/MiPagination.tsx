@@ -76,7 +76,7 @@ export default function MiPagination(props:MiPaginationProps) {
 
   return (
     <TablePagination
-      rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+      rowsPerPageOptions={[20, 50, { label: "All", value: -1 }]}
       colSpan={3}
       count={total}
       rowsPerPage={size}
