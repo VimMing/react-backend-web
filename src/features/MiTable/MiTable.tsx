@@ -7,27 +7,28 @@ import TableFooter from "@mui/material/TableFooter";
 import { useState } from "react";
 import MiPagination from "./MiPagination";
 import React from "react";
-type MiTableProps<T> = {
+
+export type MiTableProps<T> = {
   columns: Array<{
-    key: keyof T;
+    key: Exclude<keyof T, symbol>;
     type: string;
     label: string;
     enumOptions?: () => void | string;
     props?: { [p: string]: string | number };
   }>;
-  rows: Array<{
-    [key in keyof T]: string | number;
-  }>;
-}
+  tableParamsChange: (page: number, limit: number) => void;
+  rows: Array<T>;
+};
 
-export default function MiTable<T>(props: MiTableProps<T & {id: string}>) {
+export default function MiTable<T>(props: MiTableProps<T>) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
-  const { columns, rows } = props;
+  const { columns, tableParamsChange, rows } = props;
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
   ) => {
+    tableParamsChange(newPage + 1, rowsPerPage);
     setPage(newPage);
   };
 
@@ -36,6 +37,7 @@ export default function MiTable<T>(props: MiTableProps<T & {id: string}>) {
   ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    tableParamsChange(1, rowsPerPage);
   };
   return (
     <Grid container rowSpacing={3}>
@@ -46,7 +48,7 @@ export default function MiTable<T>(props: MiTableProps<T & {id: string}>) {
               <TableRow>
                 {columns.map((column) => {
                   return (
-                    <TableCell key={column.key as string} {...column.props}>
+                    <TableCell key={column.key} {...column.props}>
                       {column.label}
                     </TableCell>
                   );
@@ -55,11 +57,11 @@ export default function MiTable<T>(props: MiTableProps<T & {id: string}>) {
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row?.id}>
                   {columns.map((column) => {
                     return (
-                      <TableCell key={column.key as string} {...column.props}>
-                        {row[column.key]}
+                      <TableCell key={column.key} {...column.props}>
+                        {row[column.key] as React.ReactNode}
                       </TableCell>
                     );
                   })}

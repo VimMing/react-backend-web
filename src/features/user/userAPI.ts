@@ -1,6 +1,6 @@
 import axios from "axios";
 import {appendToken, tokenIsValid} from '@/utils/token'
-
+import { UserModel } from "./userSlice";
 const API = axios.create({
   baseURL: process.env.REACT_APP_API,
   timeout: 5000,
@@ -33,6 +33,16 @@ export function loginAPI(payload: {
 }): Promise<{data: string, errCode: number}> {
   return API.post(
     "/user/use-password/login",
+    payload
+  );
+}
+
+export function getUsersAPI(payload: {
+  page: number;
+  limit: number;
+}): Promise<{data: Array<UserModel>, errCode: number, errMsg: string}> {
+  return API.post(
+    "/admin/user/list",
     payload
   );
 }
