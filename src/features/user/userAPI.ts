@@ -40,7 +40,7 @@ export function loginAPI(payload: {
 export function getUsersAPI(payload: {
   page: number;
   limit: number;
-}): Promise<{data: Array<UserModel>, errCode: number, errMsg: string}> {
+}): Promise<{data: {list: Array<UserModel>, amount: number}, errCode: number, errMsg: string}> {
   return API.post(
     "/admin/user/list",
     payload

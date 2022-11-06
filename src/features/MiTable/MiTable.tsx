@@ -18,12 +18,15 @@ export type MiTableProps<T> = {
   }>;
   tableParamsChange: (page: number, limit: number) => void;
   rows: Array<T>;
+  total: number;
 };
 
-export default function MiTable<T>(props: MiTableProps<T>) {
+type ExistId<T>= T extends {id: string | number} ? T : never
+
+export default function MiTable<T>(props: MiTableProps<ExistId<T>>) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
-  const { columns, tableParamsChange, rows } = props;
+  const { columns, tableParamsChange, rows, total } = props;
   const handleChangePage = (
     event: React.MouseEvent<HTMLButtonElement> | null,
     newPage: number
@@ -35,9 +38,10 @@ export default function MiTable<T>(props: MiTableProps<T>) {
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    const value:number = parseInt(event.target.value, 10) 
+    setRowsPerPage(value);
     setPage(0);
-    tableParamsChange(1, rowsPerPage);
+    tableParamsChange(1, value);
   };
   return (
     <Grid container rowSpacing={3}>
@@ -57,11 +61,11 @@ export default function MiTable<T>(props: MiTableProps<T>) {
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <TableRow key={row?.id}>
+                <TableRow key={row.id}>
                   {columns.map((column) => {
                     return (
                       <TableCell key={column.key} {...column.props}>
-                        {row[column.key] as React.ReactNode}
+                        {row[column.key] as any}
                       </TableCell>
                     );
                   })}
@@ -72,7 +76,7 @@ export default function MiTable<T>(props: MiTableProps<T>) {
               <TableRow>
                 <MiPagination
                   size={rowsPerPage}
-                  total={rows.length}
+                  total={total}
                   page={page}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}></MiPagination>

@@ -33,12 +33,14 @@ export const columns:MiTableProps<UserModel>['columns'] = [
 
 export interface UserState {
   Authorization: string;
-  list: Array<UserModel>
+  list: Array<UserModel>;
+  total: number;
 }
 
 const initialState: UserState = {
   Authorization: "",
-  list: []
+  list: [],
+  total: 0
 };
 
 export const loginAsync = createAsyncThunk(
@@ -74,7 +76,10 @@ export const userSlice = createSlice({
       state.Authorization = action.payload;
     });
     builder.addCase(getUsersAsync.fulfilled, (state, action) => {
-      state.list = action.payload;
+      if(Array.isArray(action?.payload?.list)){
+        state.list = action.payload.list;
+        state.total = action.payload.amount
+      }
     });
   },
 });
@@ -85,6 +90,9 @@ export const selectAuth = (state: RootState): boolean => {
 
 export const selectUsers = (state: RootState): Array<UserModel> => {
   return state.user.list
+}
+export const selectTotal = (state: RootState): number => {
+  return state.user.total
 }
 // export const { login } = userSlice.actions;
 export default userSlice.reducer;
