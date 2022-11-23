@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from "axios";
-
+import { logout } from "@/features/user/userSlice";
+import {store} from "@/app/store"
 const TOKEN_KEY = "TOKEN_KEY";
 
 export function getToken():{Authorization?: string} {
@@ -22,6 +23,7 @@ export function setToken(token: string) {
 
 export function removeToken() {
   localStorage.removeItem(TOKEN_KEY);
+  store.dispatch(logout())
 }
 
 export function tokenIsValid(status: number) {

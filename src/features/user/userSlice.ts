@@ -70,7 +70,11 @@ export const getUsersAsync = createAsyncThunk(
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.Authorization = ''
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(loginAsync.fulfilled, (state, action) => {
       state.Authorization = action.payload;
@@ -96,3 +100,5 @@ export const selectTotal = (state: RootState): number => {
 }
 // export const { login } = userSlice.actions;
 export default userSlice.reducer;
+
+export const { logout } = userSlice.actions;

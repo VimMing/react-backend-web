@@ -161,17 +161,19 @@ export default function Layout() {
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",
+            display: 'flex',
+            flexDirection: 'column'
           }}>
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
+          <Container maxWidth="lg" sx={{ mt: 3, mb: 3, flex: 1, overflow: "hidden" }}>
+            <Grid container sx={{height: '100%', overflow: 'auto'}}>
               <Routes>
                 <Route index element={<Intro />} />
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="user-list" element={<UserList />} />
               </Routes>
             </Grid>
-            <Copyright sx={{ pt: 4 }} />
+            {/* <Copyright sx={{ pt: 4 }} /> */}
           </Container>
         </Box>
       </Box>
