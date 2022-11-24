@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
+// import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -22,22 +22,22 @@ import Intro from "@/pages/Intro";
 import Dashboard from "@/pages/Dashboard";
 import UserList from "@/pages/UserList";
 
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}>
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+// function Copyright(props: any) {
+//   return (
+//     <Typography
+//       variant="body2"
+//       color="text.secondary"
+//       align="center"
+//       {...props}>
+//       {"Copyright © "}
+//       <Link color="inherit" href="https://mui.com/">
+//         Your Website
+//       </Link>{" "}
+//       {new Date().getFullYear()}
+//       {"."}
+//     </Typography>
+//   );
+// }
 
 const drawerWidth: number = 240;
 
@@ -165,8 +165,8 @@ export default function Layout() {
             flexDirection: 'column'
           }}>
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 3, mb: 3, flex: 1, overflow: "hidden" }}>
-            <Grid container sx={{height: '100%', overflow: 'auto'}}>
+          <Container maxWidth="xl" sx={{ mt: 3, mb: 3, flex: 1, overflow: "hidden" }}>
+            <Grid container sx={{height: '100%', overflow: 'auto', flexDirection: 'column', flexWrap: 'nowrap'}}>
               <Routes>
                 <Route index element={<Intro />} />
                 <Route path="dashboard" element={<Dashboard />} />

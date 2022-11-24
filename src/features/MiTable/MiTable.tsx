@@ -23,6 +23,8 @@ export type MiTableProps<T> = {
 
 type ExistId<T>= T extends {id: string | number} ? T : never
 
+export type Columns<T> = MiTableProps<T>['columns']
+
 export default function MiTable<T>(props: MiTableProps<ExistId<T>>) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
