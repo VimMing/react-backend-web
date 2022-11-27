@@ -165,8 +165,8 @@ export default function Layout() {
             flexDirection: 'column'
           }}>
           <Toolbar />
-          <Container maxWidth="xl" sx={{ mt: 3, mb: 3, flex: 1, overflow: "hidden" }}>
-            <Grid container sx={{height: '100%', overflow: 'auto', flexDirection: 'column', flexWrap: 'nowrap'}}>
+          <Container maxWidth="xl" sx={{ mt: 3, mb: 1, flex: 1, overflow: "hidden" }}>
+            <Grid container sx={{height: '100%', overflow: 'hidden', flexDirection: 'column', flexWrap: 'nowrap'}}>
               <Routes>
                 <Route index element={<Intro />} />
                 <Route path="dashboard" element={<Dashboard />} />

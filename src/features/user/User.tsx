@@ -20,9 +20,12 @@ export function UsersTable() {
       // mounted.current = true
     // }
   }, [dispatch])
+  const handleQuery = (args:any) => {
+    console.log(args)
+  }
   return (
     <>
-      <MiSearch<UserModel> columns={columns}></MiSearch>
+      <MiSearch<UserModel> columns={columns} query={handleQuery}></MiSearch>
       <MiTable<UserModel>
         columns={columns}
         rows={rows}

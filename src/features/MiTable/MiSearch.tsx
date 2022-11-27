@@ -123,7 +123,14 @@ function BasicInput(props: BasicInputProps) {
 }
 
 type MiSearchProps<T> = {
-  columns: Columns<T>
+  columns: Columns<T>,
+  query?: (forms: Array<templateType>)=> void
+}
+type templateType ={
+  fieldValue: string | number
+  fieldCode: string
+  operator: string
+  logic: string
 }
 export default function MiSearch<T>(props: MiSearchProps<T>) {
   const columnOptions = props.columns.map((i) => ({
@@ -131,12 +138,7 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
     value: i.key,
   }))
   const [templateSearchForm, setTemplateSearchForm] = useState<
-    Array<{
-      fieldValue: string | number
-      fieldCode: string
-      operator: string
-      logic: string
-    }>
+    Array<templateType>
   >([
     {
       fieldValue: '',
@@ -155,16 +157,30 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
   ): void => {
     templateSearchForm[index][field] = value as string
   }
+  const addTemplate = (isReset = false) => {
+    let template =  {
+      fieldValue: '',
+      fieldCode: '',
+      operator: opts[0].value,
+      logic: logics[0].value,
+    }
+    if(isReset){
+      template.fieldCode = columnOptions[0].value as string
+      setTemplateSearchForm([template])
+    }else{
+      setTemplateSearchForm([...templateSearchForm, template])
+    }
+    return template
+  }
   const handleAddTemplate = () => {
-    setTemplateSearchForm([
-      ...templateSearchForm,
-      {
-        fieldValue: '',
-        fieldCode: '',
-        operator: opts[0].value,
-        logic: logics[0].value,
-      },
-    ])
+    addTemplate()
+  }
+  const handleReset = () => {
+    addTemplate(true)
+    props.query && props.query([])
+  }
+  const handleQuery = () => {
+    props.query && props.query(templateSearchForm)
   }
   const handleDeleteTemplate = (i: number) => {
     templateSearchForm.splice(i, 1)
@@ -226,8 +242,8 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
         </Grid>
         <Grid item xs={12} md={2}>
           <Stack spacing={2} direction="row">
-            <Button variant="contained">查询</Button>
-            <Button variant="outlined">重置</Button>
+            <Button variant="contained" onClick={handleQuery}>查询</Button>
+            <Button variant="outlined" onClick={handleReset}>重置</Button>
           </Stack>
         </Grid>
       </Grid>
