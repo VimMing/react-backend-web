@@ -28,6 +28,11 @@ export const columns:MiTableProps<UserModel>['columns'] = [
     key: 'mobile',
     label: '手机号',
     type: 'string'
+  },
+  {
+    key: 'createdAt',
+    label: '创建时间',
+    type: 'date'
   }
 ]
 

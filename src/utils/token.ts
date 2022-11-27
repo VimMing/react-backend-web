@@ -22,6 +22,7 @@ export function setToken(token: string) {
 }
 
 export function removeToken() {
+  console.log('remove token')
   localStorage.removeItem(TOKEN_KEY);
   store.dispatch(logout())
 }

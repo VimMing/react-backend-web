@@ -8,8 +8,11 @@ import {
   TextField,
   Select,
   InputLabel,
+  IconButton,
   SelectChangeEvent,
 } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import RemoveIcon from '@mui/icons-material/Remove'
 import { useState, useEffect } from 'react'
 import { Columns } from './MiTable'
 
@@ -90,11 +93,43 @@ function BasicSelect(props: BasicSelectProps) {
     </FormControl>
   )
 }
+type BasicInputProps = {
+  label: string
+  value?: string | number
+  onChange?: (val: string | number) => void
+}
+
+function BasicInput(props: BasicInputProps) {
+  const [value, setValue] = useState<string | number>('')
+  useEffect(() => {
+    if (props.value != null) {
+      setValue(props.value)
+    }
+  }, [props.value])
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value as string)
+    props.onChange && props.onChange(event.target.value as string)
+  }
+  return (
+    <TextField
+      size="small"
+      fullWidth
+      value={value}
+      label={props.label}
+      onChange={handleChange}
+      variant="outlined"
+    />
+  )
+}
 
 type MiSearchProps<T> = {
   columns: Columns<T>
 }
 export default function MiSearch<T>(props: MiSearchProps<T>) {
+  const columnOptions = props.columns.map((i) => ({
+    label: i.label,
+    value: i.key,
+  }))
   const [templateSearchForm, setTemplateSearchForm] = useState<
     Array<{
       fieldValue: string | number
@@ -102,35 +137,37 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
       operator: string
       logic: string
     }>
-  >([])
-  const columnOptions = props.columns.map((i) => ({
-    label: i.label,
-    value: i.key,
-  }))
+  >([
+    {
+      fieldValue: '',
+      fieldCode: columnOptions[0].value as string,
+      operator: opts[0].value,
+      logic: logics[0].value,
+    },
+  ])
   useEffect(() => {
-    console.log('Mi Search', props.columns)
-    console.log(templateSearchForm)
-    setTemplateSearchForm([
-      {
-        fieldValue: '',
-        fieldCode: columnOptions[0].value as string,
-        operator: opts[0].value,
-        logic: logics[0].value,
-      },
-    ])
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.columns.length])
-  useEffect(() => {
-    console.log('组件刷新', templateSearchForm);
+    console.log('组件刷新', templateSearchForm)
   })
   const handleChange = (
     index: number,
     field: 'fieldValue' | 'fieldCode' | 'operator' | 'logic',
     value: number | string
   ): void => {
-    // console.log(templateSearchForm)
-    templateSearchForm[index][field] = value as any
-    console.log(templateSearchForm)
+    templateSearchForm[index][field] = value as string
+  }
+  const handleAddTemplate = () => {
+    setTemplateSearchForm([
+      ...templateSearchForm,
+      {
+        fieldValue: '',
+        fieldCode: '',
+        operator: opts[0].value,
+        logic: logics[0].value,
+      },
+    ])
+  }
+  const handleDeleteTemplate = (i: number) => {
+    templateSearchForm.splice(i, 1)
     setTemplateSearchForm([...templateSearchForm])
   }
   return (
@@ -139,7 +176,7 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
         <Grid item xs={12} md={10}>
           {templateSearchForm.map((template, templateIndex) => {
             return (
-              <Stack spacing={1} direction="row">
+              <Stack spacing={1} direction="row" mb={2}>
                 <BasicSelect
                   label="搜索列"
                   options={columnOptions}
@@ -154,20 +191,35 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
                     handleChange(templateIndex, 'operator', val)
                   }
                 ></OperatorSelect>
-                <TextField
-                  size="small"
-                  fullWidth
+                <BasicInput
                   label="搜索值"
                   value={template.fieldValue}
-                  onChange={event => handleChange(templateIndex, 'fieldValue', event.target.value as string)}
-                  variant="outlined"
-                />
+                  onChange={(val) =>
+                    handleChange(templateIndex, 'fieldValue', val)
+                  }
+                ></BasicInput>
                 <LogicSelect
                   value={template.logic}
-                  onChange={(val) =>
-                    handleChange(templateIndex, 'logic', val)
-                  }
+                  onChange={(val) => handleChange(templateIndex, 'logic', val)}
                 ></LogicSelect>
+                {templateIndex === 0 && (
+                  <IconButton
+                    onClick={handleAddTemplate}
+                    aria-label="add"
+                    color="primary"
+                  >
+                    <AddIcon />
+                  </IconButton>
+                )}
+                {templateIndex !== 0 && (
+                  <IconButton
+                    onClick={() => handleDeleteTemplate(templateIndex)}
+                    aria-label="delete"
+                    color="error"
+                  >
+                    <RemoveIcon />
+                  </IconButton>
+                )}
               </Stack>
             )
           })}

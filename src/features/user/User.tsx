@@ -8,18 +8,18 @@ import {
   selectTotal,
 } from './userSlice'
 import { useAppSelector, useAppDispatch } from '../../app/hooks'
-import { useEffect, useRef } from 'react'
+import { useEffect/*, useRef*/ } from 'react'
 export function UsersTable() {
   const rows = useAppSelector(selectUsers)
   const dispatch = useAppDispatch()
-  const mounted = useRef(false)
+  // const mounted = useRef(false)
   const total = useAppSelector(selectTotal)
   useEffect(() => {
-    if (mounted.current === false) {
+    // if (mounted.current === false) {
       dispatch(getUsersAsync({ page: 1, limit: 20 }))
-      mounted.current = true
-    }
-  })
+      // mounted.current = true
+    // }
+  }, [dispatch])
   return (
     <>
       <MiSearch<UserModel> columns={columns}></MiSearch>
