@@ -1,6 +1,7 @@
 import axios from "axios";
 import {appendToken, tokenIsValid} from '@/utils/token'
 import { UserModel } from "./userSlice";
+import { SearchFormItem } from "../MiTable/MiSearch";
 const API = axios.create({
   baseURL: process.env.REACT_APP_API,
   timeout: 5000,
@@ -40,6 +41,7 @@ export function loginAPI(payload: {
 export function getUsersAPI(payload: {
   page: number;
   limit: number;
+  __searchForm?: Array<SearchFormItem>
 }): Promise<{data: {list: Array<UserModel>, amount: number}, errCode: number, errMsg: string}> {
   return API.post(
     "/admin/user/list",

@@ -1,5 +1,5 @@
 import MiTable from '../MiTable/MiTable'
-import MiSearch from '../MiTable/MiSearch'
+import MiSearch, { SearchFormItem } from '../MiTable/MiSearch'
 import {
   UserModel,
   columns,
@@ -8,24 +8,27 @@ import {
   selectTotal,
 } from './userSlice'
 import { useAppSelector, useAppDispatch } from '../../app/hooks'
-import { useEffect/*, useRef*/ } from 'react'
+import { useEffect, useRef } from 'react'
 export function UsersTable() {
   const rows = useAppSelector(selectUsers)
   const dispatch = useAppDispatch()
   // const mounted = useRef(false)
+  const searchRef = useRef()
   const total = useAppSelector(selectTotal)
   useEffect(() => {
     // if (mounted.current === false) {
       dispatch(getUsersAsync({ page: 1, limit: 20 }))
+      console.log(searchRef)
       // mounted.current = true
     // }
   }, [dispatch])
-  const handleQuery = (args:any) => {
-    console.log(args)
+  const handleQuery = (searchForm: Array<SearchFormItem>) => {
+    console.log(searchForm)
+    dispatch(getUsersAsync({ page: 1, limit: 20, __searchForm: searchForm }))
   }
   return (
     <>
-      <MiSearch<UserModel> columns={columns} query={handleQuery}></MiSearch>
+      <MiSearch<UserModel> ref={searchRef} columns={columns} query={handleQuery}></MiSearch>
       <MiTable<UserModel>
         columns={columns}
         rows={rows}

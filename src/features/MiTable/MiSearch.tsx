@@ -124,9 +124,10 @@ function BasicInput(props: BasicInputProps) {
 
 type MiSearchProps<T> = {
   columns: Columns<T>,
-  query?: (forms: Array<templateType>)=> void
+  query?: (forms: Array<SearchFormItem>)=> void,
+  ref?: any
 }
-type templateType ={
+export type SearchFormItem ={
   fieldValue: string | number
   fieldCode: string
   operator: string
@@ -138,7 +139,7 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
     value: i.key,
   }))
   const [templateSearchForm, setTemplateSearchForm] = useState<
-    Array<templateType>
+    Array<SearchFormItem>
   >([
     {
       fieldValue: '',
@@ -152,7 +153,7 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
   })
   const handleChange = (
     index: number,
-    field: 'fieldValue' | 'fieldCode' | 'operator' | 'logic',
+    field: keyof SearchFormItem,
     value: number | string
   ): void => {
     templateSearchForm[index][field] = value as string

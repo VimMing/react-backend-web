@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { loginAPI, getUsersAPI } from "./userAPI";
-import { getToken, setToken } from "@/utils/token";
+import {  setToken } from "@/utils/token";
 import { RootState } from "@/app/store";
 import { MiTableProps } from "../MiTable/MiTable";
 export interface UserModel{
@@ -93,8 +93,9 @@ export const userSlice = createSlice({
   },
 });
 
-export const selectAuth = (state: RootState): boolean => {
-  return Boolean(state.user.Authorization) || Boolean(getToken().Authorization);
+export const selectAuth = (state: RootState): string | undefined => {
+  console.log('@todo redux selectAuth, 校验权限的组件需要props，进行刷新')
+  return state.user.Authorization;
 };
 
 export const selectUsers = (state: RootState): Array<UserModel> => {
