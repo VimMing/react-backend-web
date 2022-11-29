@@ -9,13 +9,16 @@ import {
 import Layout from "@/features/layout/layout";
 import Login from "./pages/Login";
 import { useEffect } from "react";
-import { useAppSelector } from "@/app/hooks";
-import { selectAuth } from "@/features/user/userSlice";
+import { useAppSelector, useAppDispatch } from "@/app/hooks";
+import { selectAuth, autoLogin } from "@/features/user/userSlice";
 import { getToken } from "@/utils/token";
-
+import { connect } from "react-redux";
+import {RootState} from "@/app/store"
 function App() {
+  const dispatch = useAppDispatch()
   useEffect(() => {
     console.log("enter app");
+    dispatch(autoLogin())
   });
 
   return (
@@ -43,7 +46,7 @@ function App() {
 
 function RequireAuth({ children }: { children: JSX.Element }) {
   let auth = useAppSelector(selectAuth);
-  let location = useLocation(); 
+  let location = useLocation();
   if (!(auth || getToken().Authorization)) {
     // Redirect them to the /login page, but save the current location they were
     // trying to go to when they were redirected. This allows us to send them
@@ -54,5 +57,10 @@ function RequireAuth({ children }: { children: JSX.Element }) {
 
   return children;
 }
+// const ConnectedRequireAuth = connect((state:RootState) => {
+//   return {
+//     auth: state.user.Authorization
+//   }
+// })(RequireAuth)
 
 export default App;

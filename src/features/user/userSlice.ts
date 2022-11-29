@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { loginAPI, getUsersAPI } from "./userAPI";
-import {  setToken } from "@/utils/token";
+import {  setToken, getToken } from "@/utils/token";
 import { RootState } from "@/app/store";
 import { MiTableProps } from "../MiTable/MiTable";
 export interface UserModel{
@@ -78,6 +78,9 @@ export const userSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.Authorization = ''
+    },
+    autoLogin: (state) => {
+      state.Authorization = getToken().Authorization || ''
     }
   },
   extraReducers: (builder) => {
@@ -94,7 +97,6 @@ export const userSlice = createSlice({
 });
 
 export const selectAuth = (state: RootState): string | undefined => {
-  console.log('@todo redux selectAuth, 校验权限的组件需要props，进行刷新')
   return state.user.Authorization;
 };
 
@@ -107,4 +109,4 @@ export const selectTotal = (state: RootState): number => {
 // export const { login } = userSlice.actions;
 export default userSlice.reducer;
 
-export const { logout } = userSlice.actions;
+export const { logout, autoLogin } = userSlice.actions;

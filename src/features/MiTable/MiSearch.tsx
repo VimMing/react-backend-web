@@ -31,7 +31,7 @@ function LogicSelect(props: Omit<BasicSelectProps, 'label' | 'options'>) {
 }
 const opts = [
   {
-    value: 'contain',
+    value: 'substring',
     label: '包含',
   },
   {
@@ -149,7 +149,7 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
     },
   ])
   useEffect(() => {
-    console.log('组件刷新', templateSearchForm)
+    // console.log('组件刷新', templateSearchForm)
   })
   const handleChange = (
     index: number,

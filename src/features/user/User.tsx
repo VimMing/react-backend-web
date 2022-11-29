@@ -23,7 +23,6 @@ export function UsersTable() {
     // }
   }, [dispatch])
   const handleQuery = (searchForm: Array<SearchFormItem>) => {
-    console.log(searchForm)
     dispatch(getUsersAsync({ page: 1, limit: 20, __searchForm: searchForm }))
   }
   return (
