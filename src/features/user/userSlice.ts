@@ -106,7 +106,7 @@ export const selectUsers = (state: RootState): Array<UserModel> => {
 export const selectTotal = (state: RootState): number => {
   return state.user.total
 }
-// export const { login } = userSlice.actions;
+
 export default userSlice.reducer;
 
 export const { logout, autoLogin } = userSlice.actions;

@@ -16,11 +16,12 @@ import Grid from "@mui/material/Grid";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { MainListItems, secondaryListItems } from "./sidebar";
+import { MainListItems } from "./sidebar";
 import { Routes, Route } from "react-router-dom";
-import Intro from "@/pages/Intro";
-import Dashboard from "@/pages/Dashboard";
+// import Intro from "@/pages/Intro";
+// import Dashboard from "@/pages/Dashboard";
 import UserList from "@/pages/UserList";
+import FriendBirthday from "@/pages/FriendBirthday";
 
 // function Copyright(props: any) {
 //   return (
@@ -123,7 +124,7 @@ export default function Layout() {
               color="inherit"
               noWrap
               sx={{ flexGrow: 1 }}>
-              Dashboard
+              后台开发中...
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -147,8 +148,8 @@ export default function Layout() {
           <Divider />
           <List component="nav">
             <MainListItems />
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            {/* <Divider sx={{ my: 1 }} />
+            {secondaryListItems} */}
           </List>
         </Drawer>
         <Box
@@ -168,9 +169,9 @@ export default function Layout() {
           <Container maxWidth="xl" sx={{ mt: 3, mb: 1, flex: 1, overflow: "hidden" }}>
             <Grid container sx={{height: '100%', overflow: 'hidden', flexDirection: 'column', flexWrap: 'nowrap'}}>
               <Routes>
-                <Route index element={<Intro />} />
-                <Route path="dashboard" element={<Dashboard />} />
+                {/* <Route index element={<Intro />} /> */}
                 <Route path="user-list" element={<UserList />} />
+                <Route path="friend-birthday" element={<FriendBirthday />} />
               </Routes>
             </Grid>
             {/* <Copyright sx={{ pt: 4 }} /> */}

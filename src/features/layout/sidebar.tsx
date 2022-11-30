@@ -3,28 +3,26 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { useNavigate, useMatch } from "react-router-dom";
+import PersonIcon from '@mui/icons-material/Person';
+import CakeIcon from '@mui/icons-material/Cake';
 
 export const MainListItems = () => {
   const navigate = useNavigate();
   return (
     <React.Fragment>
-      <ListItemButton
-        selected={!!useMatch("/dashboard")}
-        onClick={() => navigate("/dashboard")}>
-        <ListItemIcon>
-          <DashboardIcon />
-        </ListItemIcon>
-        <ListItemText primary="Dashboard" />
-      </ListItemButton>
       <ListItemButton selected={!!useMatch("/user-list")} onClick={() => navigate("/user-list")}>
         <ListItemIcon>
-          <ShoppingCartIcon />
+          <PersonIcon />
         </ListItemIcon>
         <ListItemText primary="微信用户" />
+      </ListItemButton>
+      <ListItemButton selected={!!useMatch("/friend-birthday")} onClick={() => navigate("/friend-birthday")}>
+        <ListItemIcon>
+          <CakeIcon />
+        </ListItemIcon>
+        <ListItemText primary="朋友生日" />
       </ListItemButton>
     </React.Fragment>
   );
