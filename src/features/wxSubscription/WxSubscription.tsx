@@ -6,9 +6,9 @@ import {
   getListAsync,
   selectList,
   selectTotal,
-} from './friendBirthdaySlice'
+} from './wxSubscriptionSlice'
 import { useAppSelector, useAppDispatch } from '../../app/hooks'
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 export function SearchTable() {
   const rows = useAppSelector(selectList)
   const dispatch = useAppDispatch()

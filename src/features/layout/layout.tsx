@@ -22,6 +22,7 @@ import { Routes, Route } from "react-router-dom";
 // import Dashboard from "@/pages/Dashboard";
 import UserList from "@/pages/UserList";
 import FriendBirthday from "@/pages/FriendBirthday";
+import WxSubscription from "@/pages/WxSubscription";
 
 // function Copyright(props: any) {
 //   return (
@@ -172,6 +173,7 @@ export default function Layout() {
                 {/* <Route index element={<Intro />} /> */}
                 <Route path="user-list" element={<UserList />} />
                 <Route path="friend-birthday" element={<FriendBirthday />} />
+                <Route path="wx-subscription" element={<WxSubscription />} />
               </Routes>
             </Grid>
             {/* <Copyright sx={{ pt: 4 }} /> */}
