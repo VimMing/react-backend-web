@@ -1,10 +1,10 @@
-import { Paper, Grid, TableHead, TableRow } from '@mui/material'
+import { Paper, TableHead, TableRow } from '@mui/material'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableFooter from '@mui/material/TableFooter'
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import MiPagination from './MiPagination'
 import React from 'react'
 
@@ -15,6 +15,7 @@ export type MiTableProps<T> = {
     label: string
     enumOptions?: () => void | string
     props?: { [p: string]: string | number }
+    node?: ReactNode
   }>
   tableParamsChange: (page: number, limit: number) => void
   rows: Array<T>
@@ -65,7 +66,7 @@ export default function MiTable<T>(props: MiTableProps<ExistId<T>>) {
               {columns.map((column) => {
                 return (
                   <TableCell key={column.key} {...column.props}>
-                    {row[column.key] as any}
+                    {column.node ? column.node : row[column.key] as any}
                   </TableCell>
                 )
               })}

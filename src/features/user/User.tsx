@@ -12,28 +12,24 @@ import { useEffect, useRef } from 'react'
 export function UsersTable() {
   const rows = useAppSelector(selectUsers)
   const dispatch = useAppDispatch()
-  // const mounted = useRef(false)
-  const searchRef = useRef()
+  const searchForm = useRef<Array<SearchFormItem>>([])
   const total = useAppSelector(selectTotal)
   useEffect(() => {
-    // if (mounted.current === false) {
       dispatch(getUsersAsync({ page: 1, limit: 20 }))
-      console.log(searchRef)
-      // mounted.current = true
-    // }
   }, [dispatch])
-  const handleQuery = (searchForm: Array<SearchFormItem>) => {
-    dispatch(getUsersAsync({ page: 1, limit: 20, __searchForm: searchForm }))
+  const handleQuery = (searchFormInput: Array<SearchFormItem>) => {
+    searchForm.current = searchFormInput
+    dispatch(getUsersAsync({ page: 1, limit: 20, __searchForm: searchFormInput }))
   }
   return (
     <>
-      <MiSearch<UserModel> ref={searchRef} columns={columns} query={handleQuery}></MiSearch>
+      <MiSearch<UserModel>  columns={columns} query={handleQuery}></MiSearch>
       <MiTable<UserModel>
         columns={columns}
         rows={rows}
         total={total}
         tableParamsChange={(page, limit) =>
-          dispatch(getUsersAsync({ page: page, limit: limit }))
+          dispatch(getUsersAsync({ page: page, limit: limit, __searchForm: searchForm.current }))
         }
       ></MiTable>
     </>

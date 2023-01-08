@@ -86,8 +86,8 @@ function BasicSelect(props: BasicSelectProps) {
     <FormControl fullWidth size="small">
       <InputLabel>{props.label}</InputLabel>
       <Select value={value} label={props.label} onChange={handleChange}>
-        {props.options.map((item) => (
-          <MenuItem value={item.value}>{item.label}</MenuItem>
+        {props.options.map((item, index) => (
+          <MenuItem value={item.value} key={index}>{item.label}</MenuItem>
         ))}
       </Select>
     </FormControl>
@@ -123,11 +123,11 @@ function BasicInput(props: BasicInputProps) {
 }
 
 type MiSearchProps<T> = {
-  columns: Columns<T>,
-  query?: (forms: Array<SearchFormItem>)=> void,
+  columns: Columns<T>
+  query?: (forms: Array<SearchFormItem>) => void
   ref?: any
 }
-export type SearchFormItem ={
+export type SearchFormItem = {
   fieldValue: string | number
   fieldCode: string
   operator: string
@@ -159,16 +159,16 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
     templateSearchForm[index][field] = value as string
   }
   const addTemplate = (isReset = false) => {
-    let template =  {
+    let template = {
       fieldValue: '',
       fieldCode: '',
       operator: opts[0].value,
       logic: logics[0].value,
     }
-    if(isReset){
+    if (isReset) {
       template.fieldCode = columnOptions[0].value as string
       setTemplateSearchForm([template])
-    }else{
+    } else {
       setTemplateSearchForm([...templateSearchForm, template])
     }
     return template
@@ -193,8 +193,9 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
         <Grid item xs={12} md={10}>
           {templateSearchForm.map((template, templateIndex) => {
             return (
-              <Stack spacing={1} direction="row" mb={2}>
+              <Stack spacing={1} direction="row" mb={2} key={templateIndex}>
                 <BasicSelect
+                  key={'search-column' + templateIndex}
                   label="搜索列"
                   options={columnOptions}
                   value={template.fieldCode}
@@ -203,12 +204,14 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
                   }
                 ></BasicSelect>
                 <OperatorSelect
+                  key={'operator-column' + templateIndex}
                   value={template.operator}
                   onChange={(val) =>
                     handleChange(templateIndex, 'operator', val)
                   }
                 ></OperatorSelect>
                 <BasicInput
+                  key={'value-column' + templateIndex}
                   label="搜索值"
                   value={template.fieldValue}
                   onChange={(val) =>
@@ -216,6 +219,7 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
                   }
                 ></BasicInput>
                 <LogicSelect
+                  key={'logic-column' + templateIndex}
                   value={template.logic}
                   onChange={(val) => handleChange(templateIndex, 'logic', val)}
                 ></LogicSelect>
@@ -243,8 +247,12 @@ export default function MiSearch<T>(props: MiSearchProps<T>) {
         </Grid>
         <Grid item xs={12} md={2}>
           <Stack spacing={2} direction="row">
-            <Button variant="contained" onClick={handleQuery}>查询</Button>
-            <Button variant="outlined" onClick={handleReset}>重置</Button>
+            <Button variant="contained" onClick={handleQuery}>
+              查询
+            </Button>
+            <Button variant="outlined" onClick={handleReset}>
+              重置
+            </Button>
           </Stack>
         </Grid>
       </Grid>

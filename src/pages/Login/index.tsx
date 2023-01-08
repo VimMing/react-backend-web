@@ -21,12 +21,10 @@ function Copyright(props: any) {
       color="text.secondary"
       align="center"
       {...props}>
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        后台系统
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
+      {"备案号: "}
+      <Link color="inherit" href="https://beian.miit.gov.cn/">
+          湘ICP备2021000431号-1
+      </Link>
     </Typography>
   );
 }
