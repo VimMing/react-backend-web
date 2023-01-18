@@ -46,6 +46,18 @@ export default function MiTable<T>(props: MiTableProps<ExistId<T>>) {
     setPage(0)
     tableParamsChange(1, value)
   }
+  const getCustomReactElement = (
+    node: ReactNode,
+    rowData: any
+  ): ReactNode | null => {
+    if (React.isValidElement(node)) {
+      return React.cloneElement(node, {
+        row: rowData,
+      })
+    } else {
+      return null
+    }
+  }
   return (
     <TableContainer component={Paper} sx={{ flex: 1, overflow: 'scroll' }}>
       <Table stickyHeader size="small">
@@ -66,14 +78,18 @@ export default function MiTable<T>(props: MiTableProps<ExistId<T>>) {
               {columns.map((column) => {
                 return (
                   <TableCell key={column.key} {...column.props}>
-                    {column.node ? column.node : row[column.key] as any}
+                    {column.node
+                      ? getCustomReactElement(column.node, row)
+                      : (row[column.key] as any)}
                   </TableCell>
                 )
               })}
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter sx={{position: "sticky", bottom: 0, backgroundColor: 'white'}}>
+        <TableFooter
+          sx={{ position: 'sticky', bottom: 0, backgroundColor: 'white' }}
+        >
           <TableRow>
             <MiPagination
               size={rowsPerPage}
